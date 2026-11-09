@@ -29,7 +29,7 @@ plugins:
   entries:
     ballast:
       settings:
-        scan_home: /Users/a87/BallastDemoHome
+        scan_home: /Users/<you>/BallastDemoHome
 ```
 
 An empty `scan_home` uses actual HOME. The setting appears in **Settings → Plugins → Ballast**, also reachable through the gear in **Capabilities → Plugins**. Ballast resolves its realpath and refuses missing, relative, non-directory, other-owner, system, personal and Hermes data paths. The personal-folder denylist applies beneath both the chosen home and actual HOME. All catalog roots remain relative to the chosen home; real HOME's personal directories stay protected. Symlink escapes remain refused. Every scan, plan and status reports **Scanning: &lt;resolved path&gt;** and `demo_home`; the Desktop pane shows a **DEMO HOME** badge when it differs from actual HOME. The complete signed plan binds both homes; changing either invalidates prior plans and their status summaries. Old plans lacking this binding must be recreated. This setting changes the cleanup target, so review the displayed path before approval. It does not redirect Hermes's own data or credentials.
@@ -65,7 +65,7 @@ Plans expire after 15 minutes. A private random local HMAC-SHA256 key signs the 
 
 ### Commands it may run
 
-Executables are resolved with `shutil.which`, fixed to absolute real paths and bound into the plan. Commands use argv lists, no shell, no stdin, captured output and a 120-second timeout. Node shebangs and JS entry extensions use a separately resolved, snapshot-bound Node executable; native package managers and shell/version-manager launchers are invoked directly. For pip Python shebangs, the fixed interpreter is also bound into the plan. A simple `env python3` shebang prefers the adjacent executable, then a resolved interpreter; Python venv symlink paths are preserved. Missing/unsupported env interpreters fall back to bounded deletion. The sanitized PATH stays restricted to system directories. Offline/config-isolation settings and a private command HOME prevent reading your normal tool config or requesting downloads. Command compatibility has only been tested with injected runners in this build.
+Executables are resolved with `shutil.which`, fixed to absolute real paths and bound into the plan. Commands use argv lists, no shell, no stdin, captured output and a 120-second timeout. Node shebangs and JS entry extensions use a separately resolved, snapshot-bound Node executable; native package managers and shell/version-manager launchers are invoked directly. For pip Python shebangs, the fixed interpreter is also bound into the plan. A simple `env python3` shebang prefers the adjacent executable, then a resolved interpreter; Python venv symlink paths are preserved. Missing/unsupported env interpreters fall back to bounded deletion. The sanitized PATH stays restricted to system directories. Offline/config-isolation settings and a private command HOME prevent reading your normal tool config or requesting downloads.
 
 After approval, the scoped native cleaner runs against the original cache before any staging. npm uses separate empty user and global config files in the private command HOME. A successful cleaner that empties or removes the root records `native clean ok` without staging. pip's “No matching packages” exit is treated as success when the cache is empty. A successful command that leaves contents reports them as retained and does not stage them. If the cleaner returns nonzero, times out or cannot launch, only unchanged approved leftovers move into private, same-volume staging for descriptor-relative deletion. The ledger retains the command result and reports the fallback neutrally. New top-level cache writes stay untouched; changes within approved leftovers or unsafe entries stop execution. Special-file candidates use direct deletion so skipped entries remain at their original paths.
 
@@ -91,18 +91,22 @@ All Ballast state uses the documented profile-scoped `plugin_data_dir("ballast")
 No credential files are read, no telemetry, external service calls, network downloads, self-updates, remote loaders, compiled binaries or WASM are included. Desktop uses only Hermes's existing authenticated `ctx.rest` bridge. Optional Docker reporting communicates with the default local Docker daemon through the CLI using a sanitized HOME; no user Docker context or remote endpoint is inherited. Rebuild recipes are text; Ballast never executes them. No core tools or host approval policies are replaced. `capabilities: []` declares that no privileged capability IDs are requested; this does not mean Python filesystem operations are sandboxed by Hermes.
 
 Ballast is distinct from bundled **disk-cleanup**, which tracks disposable agent-created paths within Hermes data, and **file-intelligence PR #149964**, which concerns general files. Ballast has a closed developer/AI cache catalog, target-size planning, regeneration regret and a rebuild ledger; it does not sort or clean personal files.
-
 ## Install and local verification
 
-This folder is the installable unified source plugin: Python tools/hooks, `dashboard/plugin_api.py` backend and `desktop/plugin.js` frontend. Install it with the documented Hermes local plugin installation flow when you choose to enable it. The build does not install anything into your active Hermes profile. Backend routes require host-supplied `fastapi>=0.97,<1`. The only Desktop imports are `@hermes/plugin-sdk` and `react`, the two supported specifiers intended by the SDK/React restriction; there is no `@hermes/plugin-sdk/react` module in the pinned SDK.
+Requires Hermes `>=0.23.0` on macOS. The Desktop page's backend routes use the host-supplied `fastapi>=0.97,<1`.
 
-From the Ballast workspace:
+```sh
+hermes plugins install ballast
+hermes plugins enable ballast
+```
+
+From a checkout of the repository, run the test suite and the scripted demo:
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/verify.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/demo.py
 ```
 
-The verification runner redirects HOME/HERMES_HOME/temp/cache/config/data/state into `Ballast/tmp`, excludes inherited credentials and uses fake cache trees and stub command runners. Unit tests use the Python standard library. Extra host/ASGI and React checks reuse the pinned local read-only reference dependencies; those development scripts are not needed by the installed plugin. Exact commands, outputs and limitations are in the workspace `VERIFICATION.md` and `BUILD_STATUS.md`.
+Tests run in temporary directories with fake cache trees and stub command runners. They never touch your real caches or credentials.
 
-Ballast uses documented `ctx.*` and public plugin APIs only. The private `agent.file_safety.is_write_denied` import and callback were removed to comply with catalog rule 9, correcting the coordinator brief’s requirement. Ballast’s registry allowlist/denylist and descriptor containment are the filesystem safety boundary; host file-safety policy is not consulted. Hermes validate passes without a rule-9 warning. The Mac demo preparation scans genuine downloads only in the disclosed demo home; see the workspace `demo/MAC_DESKTOP_HANDOFF.md`. Native Desktop rendering/keyboard approval, normal-HOME scans, real cleaner compatibility and model-selected end-to-end execution remain unverified.
+Demo video: [docs/demo/ballast_demo.mp4](../../docs/demo/ballast_demo.mp4)

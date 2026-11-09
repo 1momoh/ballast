@@ -1,10 +1,10 @@
-<p align="center"><img src="brand/ballast-banner-1600x400.png" alt="Ballast" width="800"></p>
+![Ballast](brand/ballast-banner-1600x400.png)
 
 # Ballast
 
 Ballast is a Hermes Agent plugin for macOS. You tell Hermes how much disk space you need ("I need 15 GB"), and Ballast frees it by clearing the developer and AI caches you'll miss least: package manager caches, build caches, downloaded model weights. Nothing outside its list of known, rebuildable caches is ever touched.
 
-Demo video: _link coming soon_
+Demo video (73 s, recorded in an isolated Hermes Desktop against a demo home of real downloaded caches): [docs/demo/ballast_demo.mp4](docs/demo/ballast_demo.mp4)
 
 ## How it works
 
@@ -40,7 +40,7 @@ Tools: `ballast_scan`, `ballast_plan`, `ballast_apply`, `ballast_ledger`, `balla
 - **Approval first.** Nothing is deleted without a fresh Hermes approval for that exact plan. Ballast never auto-approves and never runs under YOLO or non-interactive mode.
 - **Real deletion.** Approved caches are gone. They can be rebuilt, but that costs download time and bandwidth.
 - **Files it reads.** Cache directories under your home folder (sizes and access times only), plus its own data in the Hermes plugin data directory. It refuses system folders, personal folders (Documents, Desktop, Photos and the like) and Hermes's own home.
-- **Commands it runs.** Only the tool clean commands listed in `registry.py`. They run offline with a minimal environment and a private, empty config.
+- **Commands it runs.** Scoped tool cleaners (`npm cache clean --force`, `yarn cache clean`, `pip cache purge`, `uv cache clean`, `go clean -cache`, `go clean -modcache`), run offline with a minimal environment and an empty private config. During scans it also runs the read-only `docker system df` if Docker is installed; Docker is reported, never cleaned. When deleting, it restores owner write permission on read-only cache folders (such as `go/pkg/mod`) so they can be removed. Recipes are text and are never executed.
 - **Network.** None. No telemetry, no update checks, no downloads. No binaries are shipped.
 - **Credentials.** None read or stored.
 

@@ -15,7 +15,7 @@ __pycache__/
 *.log
 evidence/
 audit/
-demo/
+/demo/
 CODEX_*.md
 BUILD_STATUS.md
 AUDIT_FIX_STATUS.md
@@ -27,3 +27,5 @@ VERIFICATION.md
 .DS_Store
 BallastDemoHome/
 brand/.build/
+
+!docs/demo/ballast_demo.mp4
