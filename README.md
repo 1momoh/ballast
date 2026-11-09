@@ -4,7 +4,11 @@
 
 Ballast is a Hermes Agent plugin for macOS. You tell Hermes how much disk space you need ("I need 15 GB"), and Ballast frees it by clearing the developer and AI caches you'll miss least: package manager caches, build caches, downloaded model weights. Nothing outside its list of known, rebuildable caches is ever touched.
 
-Demo video (73 s, recorded in an isolated Hermes Desktop against a demo home of real downloaded caches): [docs/demo/ballast_demo.mp4](docs/demo/ballast_demo.mp4)
+73-second demo, recorded in an isolated Hermes Desktop against a demo home of real downloaded caches:
+
+https://github.com/user-attachments/assets/51c99369-b6b0-472f-bec0-dff5ace87f68
+
+Same file for download: [docs/demo/ballast_demo.mp4](docs/demo/ballast_demo.mp4)
 
 ## How it works
 

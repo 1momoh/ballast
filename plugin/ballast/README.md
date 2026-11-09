@@ -109,4 +109,8 @@ PYTHONDONTWRITEBYTECODE=1 python3 scripts/demo.py
 
 Tests run in temporary directories with fake cache trees and stub command runners. They never touch your real caches or credentials.
 
-Demo video: [docs/demo/ballast_demo.mp4](../../docs/demo/ballast_demo.mp4)
+Demo (plays on the repo page):
+
+https://github.com/user-attachments/assets/51c99369-b6b0-472f-bec0-dff5ace87f68
+
+Download: [docs/demo/ballast_demo.mp4](../../docs/demo/ballast_demo.mp4)
