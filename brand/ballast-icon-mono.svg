@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Ballast — single colour</title>
+  <desc id="desc">Ballast: a rising Plimsoll waterline and a released ballast weight. Author: 1momoh.</desc>
+  <metadata>Author: 1momoh. Ballast brand system.</metadata>
+<g fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="butt" stroke-linejoin="miter">
+  <circle cx="64" cy="56" r="32"/>
+  <path d="M16 56H96V40H112"/>
+</g>
+<path d="M48 96H80L72 112H56Z" fill="currentColor"/>
+</svg>

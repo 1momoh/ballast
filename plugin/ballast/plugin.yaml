@@ -1,0 +1,24 @@
+name: ballast
+version: "0.1.0"
+requires_hermes: ">=0.23.0"
+description: Ballast — reclaim developer cache space with the least regeneration regret
+author: 1momoh <alaminmomoh@gmail.com>
+license: MIT
+python_dependencies:
+  - "fastapi>=0.97,<1"
+capabilities: []
+config_schema:
+  scan_home:
+    type: str
+    default: ""
+    description: "Optional demo scan home: existing absolute directory you own. Empty uses HOME. All personal/Hermes deny rules still apply; the pane discloses DEMO HOME."
+provides_tools:
+  - ballast_scan
+  - ballast_plan
+  - ballast_apply
+  - ballast_ledger
+  - ballast_status
+provides_hooks:
+  - pre_tool_call
+  - pre_approval_request
+  - post_approval_response
